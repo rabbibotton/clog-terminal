@@ -2,7 +2,9 @@
   (:use #:cl #:clog)
   (:export clog-terminal-element
 	   create-clog-terminal-element
+	   create-clog-terminal-design
 	   set-on-command
+	   echo
            init-clog-terminal
 	   attach-clog-terminal
            start-test))
@@ -31,8 +33,28 @@
 			     :hidden hidden
 			     :html-id html-id
 			     :auto-place auto-place)))
+    (set-geometry new-obj :width 200 :height 100)
     (attach-clog-terminal new-obj :greetings greetings :prompt prompt)
     (change-class new-obj 'clog-terminal-element)))
+
+(defgeneric create-clog-terminal-design (clog-obj &key hidden class html-id auto-place)
+  (:documentation "Create a new clog-terminal-element as child of CLOG-OBJ."))
+
+(defmethod create-clog-terminal-design ((obj clog:clog-obj)
+					&key
+					  (greetings "") (prompt "> ")
+					  (hidden nil)
+					  (class nil)
+					  (html-id nil)
+					  (auto-place t))
+  (let ((new-obj (create-div obj
+			     :class class
+			     :hidden hidden
+			     :html-id html-id
+			     :auto-place auto-place)))
+    (set-geometry new-obj :width 200 :height 100)
+    (setf (background-color new-obj) :black)
+    new-obj))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Events - clog-terminal-element
