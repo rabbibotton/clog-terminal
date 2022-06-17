@@ -2,6 +2,15 @@
 
 ## License BSD 3 clause
 
+clog-terminal uses jQueryTerminal to create a terminal like interface.
+
+jQueryTerminal is located at https://terminal.jcubic.pl/
+
+I plan on adding most of the options and features of jQueryTerminal
+
+Events - on-commmand
+Methods - echo
+
 Usage with builder:
 
 ```
