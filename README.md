@@ -9,7 +9,8 @@ jQueryTerminal is located at https://terminal.jcubic.pl/
 I plan on adding most of the options and features of jQueryTerminal
 
 Events - on-commmand
-Methods - echo
+Properties - prompt
+Methods - echo, exec, clear, reset
 
 Usage with builder:
 

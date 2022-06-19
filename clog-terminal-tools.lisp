@@ -20,17 +20,28 @@
 	   ;; setup the control at _design time_ and custom attributes
 	   :setup          ,(lambda (control content control-record)
                               (declare (ignore content) (ignore control-record))
+			      ;; default custom attribute values at design time
+                              (setf (attribute control "data-clog-terminal-prompt") "> ")
+                              (setf (attribute control "data-clog-terminal-greetings") "Terminal Ready")
                               (setf (attribute control "data-on-command")
 				    "(clog-terminal:echo target data)"))
 	   ;; code to run at _run time_ after all controls attached to panel
 	   :on-setup       ,(lambda (control control-record)
                               (declare (ignore control control-record))
-			      (format nil "(clog-terminal:attach-clog-terminal target)"))
+			      ;; initialization at run time and apply custom attributes
+			      (format nil "(clog-terminal:attach-clog-terminal target :greetings \"~A\") ~
+                                           (clog-terminal:prompt target \"~A\")"
+				      (attribute control "data-clog-terminal-greetings")
+				      (attribute control "data-clog-terminal-prompt")))
 	   ;; events handled
            :events         ((:name        "on-command"
                              :package     "clog-terminal"
                              :parameters  "target data")
 			    ,@clog-tools::*events-element*)
 	   ;; properties handled
-	   :properties     (,@clog-tools::*props-element*))))
+	   :properties     ((:name "terminal greetings"
+			     :attr "data-clog-terminal-greetings")
+			    (:name "terminal prompt"
+			     :attr "data-clog-terminal-prompt")
+			    ,@clog-tools::*props-element*))))
   (format t "~%CLOG-TERMINAL installed in CLOG Builder"))

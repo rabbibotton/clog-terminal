@@ -4,7 +4,8 @@
 	   create-clog-terminal-element
 	   create-clog-terminal-design
 	   set-on-command
-	   echo
+	   prompt
+	   echo exec clear reset
            init-clog-terminal
 	   attach-clog-terminal
            start-test))
@@ -77,6 +78,21 @@ data parameter with what was entered on command line."))
 			  :one-time      one-time))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Properties - clog-terminal-element
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;
+;; prompt ;;
+;;;;;;;;;;;;
+
+(defgeneric prompt (clog-terminal-element text)
+  (:documentation "Set prompt text for terminal (write only)"))
+
+(defmethod prompt ((obj clog-terminal-element) text)
+  (jquery-execute obj (format nil "terminal().set_prompt('~A')"
+                              (escape-string text))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Methods - clog-terminal-element
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -90,6 +106,38 @@ data parameter with what was entered on command line."))
 (defmethod echo ((obj clog-terminal-element) text)
   (jquery-execute obj (format nil "terminal().echo('~A')"
                               (escape-string text))))
+
+;;;;;;;;;;
+;; exec ;;
+;;;;;;;;;;
+
+(defgeneric exec (clog-terminal-element text)
+  (:documentation "Exec text as if command entered at terminal"))
+
+(defmethod exec ((obj clog-terminal-element) text)
+  (jquery-execute obj (format nil "terminal().exec('~A')"
+                              (escape-string text))))
+
+;;;;;;;;;;;
+;; clear ;;
+;;;;;;;;;;;
+
+(defgeneric clear (clog-terminal-element)
+  (:documentation "Clear text on terminal"))
+
+(defmethod clear ((obj clog-terminal-element))
+  (jquery-execute obj "terminal().clear()"))
+
+;;;;;;;;;;;
+;; reset ;;
+;;;;;;;;;;;
+
+(defgeneric reset (clog-terminal-element)
+  (:documentation "Reset text on terminal"))
+
+(defmethod reset ((obj clog-terminal-element))
+  (jquery-execute obj "terminal().reset()"))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Implementation - js binding
