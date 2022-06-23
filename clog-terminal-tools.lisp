@@ -8,7 +8,10 @@
 	   ;; the create-function used to create the function
 	   ;; at _design time_ at run time only clog:attach-as-child is used
 	   ;; any initialization at _run time_ is done with :on-setup below.
-	   :create         clog-terminal:create-clog-terminal-design
+	   ;; we display the actual terminal control rather than a dummy
+	   ;; control and add the attriute data-clog-composite-control allow
+	   ;; for this.
+	   :create         clog-terminal:create-clog-terminal-element
 	   ;; clog has the following create-types
 	   ;;   :base         - create
 	   ;;   :element      - create create-content
@@ -20,11 +23,16 @@
 	   ;; setup the control at _design time_ and custom attributes
 	   :setup          ,(lambda (control content control-record)
                               (declare (ignore content) (ignore control-record))
+			      ;; tell the builder this is a composite control
+			      (setf (attribute control "data-clog-composite-control") "t")
 			      ;; default custom attribute values at design time
                               (setf (attribute control "data-clog-terminal-prompt") "> ")
                               (setf (attribute control "data-clog-terminal-greetings") "Terminal Ready")
                               (setf (attribute control "data-on-command")
 				    "(clog-terminal:echo target data)"))
+	   ;; code to run at _design time_ on load from .clog file
+	   :on-load        ,(lambda (control control-record)
+			     (clog-terminal:attach-clog-terminal control))
 	   ;; code to run at _run time_ after all controls attached to panel
 	   :on-setup       ,(lambda (control control-record)
                               (declare (ignore control control-record))
