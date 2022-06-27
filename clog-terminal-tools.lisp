@@ -2,8 +2,14 @@
 
 (progn
   (clog-tools:add-supported-controls
-   (list `(:name           "clog-terminal"
-	   :description    "clog-terminal jQueryTerminal"
+   (list '(:name           "group"
+	   :description    "jQueryTerminal"
+	   :create         nil
+	   :create-type    nil
+	   :events         nil
+	   :properties     nil)
+	 `(:name           "clog-terminal"
+	   :description    "clog-terminal"
 	   :clog-type      clog-terminal:clog-terminal-element
 	   ;; the create-function used to create the function
 	   ;; at _design time_ at run time only clog:attach-as-child is used
