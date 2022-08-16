@@ -58,4 +58,5 @@
                             (:name "terminal prompt"
                              :attr "data-clog-terminal-prompt")
                             ,@clog-tools::*props-element*))))
-  (format t "~%CLOG-TERMINAL installed in CLOG Builder"))
+  (format t "~%clog-terminal installed in CLOG Builder")
+  (format t "~%Copy www/clog-terminal/ to your static root if desire a local copy, instead of internet based.~%"))

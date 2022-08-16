@@ -125,11 +125,17 @@ data parameter with what was entered on command line."))
 
 (defun init-clog-terminal (obj)
   (check-type obj clog:clog-obj)
-  ;; Only init once
-  (load-css (html-document (connection-data-item obj "clog-body"))
-            "https://unpkg.com/jquery.terminal/css/jquery.terminal.min.css" :load-only-once t)
-  (load-script (html-document (connection-data-item obj "clog-body"))
-               "https://unpkg.com/jquery.terminal/js/jquery.terminal.min.js" :load-only-once t))
+  (let ((local (format nil "~A/clog-terminal" clog:*static-root*)))
+    (cond ((uiop:directory-exists-p local)
+           (load-css (html-document (connection-data-item obj "clog-body"))
+                     "/clog-terminal/jquery.terminal.min.css" :load-only-once t)
+           (load-script (html-document (connection-data-item obj "clog-body"))
+                        "/clog-terminal/jquery.terminal.min.js" :load-only-once t))
+          (t
+           (load-css (html-document (connection-data-item obj "clog-body"))
+                     "https://unpkg.com/jquery.terminal/css/jquery.terminal.min.css" :load-only-once t)
+           (load-script (html-document (connection-data-item obj "clog-body"))
+                        "https://unpkg.com/jquery.terminal/js/jquery.terminal.min.js" :load-only-once t)))))
 
 (defun attach-clog-terminal (obj &key (greetings "") (prompt "> "))
   (init-clog-terminal obj)
