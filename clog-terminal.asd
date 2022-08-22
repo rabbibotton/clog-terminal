@@ -8,5 +8,6 @@
   :components ((:file "clog-terminal")))
 
 (asdf:defsystem #:clog-terminal/tools
+  :defsystem-depends-on (:clog)
   :depends-on (#:clog-terminal #:clog/tools)
   :components ((:file "clog-terminal-tools")))
