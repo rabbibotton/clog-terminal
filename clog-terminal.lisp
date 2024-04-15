@@ -158,8 +158,6 @@ data parameter with what was entered on command line."))
 
 (defun on-test-clog-terminal (body)
   (clog:debug-mode body)
-  ;; Use the panel-box-layout to center horizontally
-  ;; and vertically our div on the screen.
   (let* ((layout (create-panel-box-layout body))
          (term   (create-clog-terminal-element (center-panel layout)
                                                :greetings "Test Terminal")))
